@@ -84,7 +84,7 @@ export default function ReadMore() {
                         <img src={recentPost.img} alt={recentPost.title} />
                         </div>
                         <div className="boxDetails">
-                        <Link to={`/posts/${generateSlug(recentPost.title)}`}>{recentPost.title}</Link>
+                        <Link to={`/blogs/${generateSlug(recentPost.title)}`}>{recentPost.title}</Link>
                         </div>
                       </div>
                     </div>
