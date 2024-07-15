@@ -7,6 +7,7 @@ import Footer from "./footer";
 
 
 export default function Blog2() {
+  
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -22,11 +23,15 @@ export default function Blog2() {
 
     fetchPosts();
   }, []);
+  const generateSlug = (title) => {
+    return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  };
   const baseURL = process.env.REACT_APP_BASE_URL;
   const showPosts = posts && posts
   .filter(post => post.active) 
     .map((ele, index) => {
       const url = ele.img;
+      const slug = generateSlug(ele.title);
       return (
         <div key={index} className="col-sm-6 col-md-4 blog-box-main">
           <div className="blog-box">
@@ -38,7 +43,7 @@ export default function Blog2() {
               <h5>{ele.title}</h5>
               <p></p>
               <div className="viewmore">
-                <Link to={`/blog-details/${ele.id}`} style={{color: "red"}}>Read More</Link>
+              <Link to={`/blogs/${slug}`} style={{color: "red"}}>Read More</Link>
               </div>
             </div>
           </div>

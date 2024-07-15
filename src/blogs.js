@@ -10,12 +10,12 @@ export default function ReadMore() {
   const [post, setPost] = useState({});
   const [recentPosts, setRecentPosts] = useState([]);
   const { id } = useParams();
-
+  const { slug } = useParams();
   useEffect(() => {
     async function fetchPost() {
       try {
         const response = await axios.get(
-          `https://live-server-bh9y.onrender.com/api/posts/${id}`
+          `https://live-server-bh9y.onrender.com/api/posts/slug/${slug}`
         );
         setPost(response.data);
         console.log("This is the post data:", response.data);
@@ -27,7 +27,7 @@ export default function ReadMore() {
     async function fetchRecentPosts() {
       try {
         const response = await axios.get(`https://live-server-bh9y.onrender.com/api/posts`);
-        const activeRecentPosts = response.data.filter(post => post.active && post.id !== parseInt(id)).slice(0, 5);
+        const activeRecentPosts = response.data.filter(post => post.active && post.slug !== slug).slice(0, 5);
         setRecentPosts(activeRecentPosts);
         console.log("This is the recent posts data:", activeRecentPosts);
       } catch (error) {
@@ -35,10 +35,14 @@ export default function ReadMore() {
       }
     }
 
-    fetchPost();
-    fetchRecentPosts();
-  }, [id]);
-
+    if (slug) {
+      fetchPost();
+      fetchRecentPosts();
+    }
+  }, [slug]);
+  const generateSlug = (title) => {
+    return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  };
   const baseURL = process.env.REACT_APP_BASE_URL;
   const url = post.img;
 
@@ -80,7 +84,7 @@ export default function ReadMore() {
                         <img src={recentPost.img} alt={recentPost.title} />
                         </div>
                         <div className="boxDetails">
-                          <Link to={`/posts/${recentPost.id}`}>{recentPost.title}</Link>
+                        <Link to={`/posts/${generateSlug(recentPost.title)}`}>{recentPost.title}</Link>
                         </div>
                       </div>
                     </div>

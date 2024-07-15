@@ -39,7 +39,7 @@ export default function Blog() {
               <h5>{ele.title}</h5>
               <p></p>
               <div className="viewmore">
-                <Link to={`/blog-details/${ele.id}`} className="button">
+                <Link to={`/blogs/${ele.id}`} className="button">
                   <span>Read More</span>
                 </Link>
               </div>
